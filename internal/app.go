@@ -1,4 +1,4 @@
-package internal // github.com/mikaponics/mikapod-logger/internal
+package internal // github.com/mikaponics/mikapod-poller/internal
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 	"github.com/golang/protobuf/ptypes/timestamp"
 
-    "github.com/mikaponics/mikapod-logger/configs"
+    "github.com/mikaponics/mikapod-poller/configs"
 	pb "github.com/mikaponics/mikapod-storage/api"
 	pb2 "github.com/mikaponics/mikapod-soil-reader/api"
 )
@@ -81,27 +81,26 @@ func minuteTicker() *time.Timer {
 func (app *MikapodLogger) RunMainRuntimeLoop() {
 	defer app.shutdown()
 
-    // THIS CODE IS WORKING, UNCOMMENT WHEN READY TO USE FOR.
-    // // DEVELOPERS NOTE:
-	// // (1) The purpose of this block of code is to find the future date where
-	// //     the minute just started, ex: 5:00 AM, 5:01, etc, and then start our
-	// //     main runtime loop to run along for every minute afterwords.
-	// // (2) If our application gets terminated by the user or system then we
-	// //     terminate our timer.
-    // log.Printf("Synching with local time...")
-	// app.timer = minuteTicker()
-	// select {
-	// 	case <- app.timer.C:
-	// 		log.Printf("Synchronized with local time.")
-	// 		app.ticker = time.NewTicker(1 * time.Minute)
-	// 	case <- app.done:
-	// 		app.timer.Stop()
-	// 		log.Printf("Interrupted timer.")
-	// 		return
-	// }
+    // DEVELOPERS NOTE:
+	// (1) The purpose of this block of code is to find the future date where
+	//     the minute just started, ex: 5:00 AM, 5:01, etc, and then start our
+	//     main runtime loop to run along for every minute afterwords.
+	// (2) If our application gets terminated by the user or system then we
+	//     terminate our timer.
+    log.Printf("Synching with local time...")
+	app.timer = minuteTicker()
+	select {
+		case <- app.timer.C:
+			log.Printf("Synchronized with local time.")
+			app.ticker = time.NewTicker(1 * time.Minute)
+		case <- app.done:
+			app.timer.Stop()
+			log.Printf("Interrupted timer.")
+			return
+	}
 
-    // THIS CODE IS FOR TESTING, REMOVE WHEN READY TO USE, UNCOMMENT ABOVE.
-	app.ticker = time.NewTicker(1 * time.Minute)
+    // // THIS CODE IS FOR TESTING, REMOVE WHEN READY TO USE, UNCOMMENT ABOVE.
+	// app.ticker = time.NewTicker(1 * time.Minute)
 
     // DEVELOPERS NOTE:
 	// (1) The purpose of this block of code is to run as a goroutine in the
@@ -182,7 +181,7 @@ func (app *MikapodLogger) saveDataToStorage(data *TimeSeriesData) {
 func (app *MikapodLogger) addTimeSeriesDatum(instrument int32, value float32, ts *timestamp.Timestamp) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := app.storage.AddTimeSeriesDatum(ctx, &pb.TimeSeriesDatumRequest{
+	_, err := app.storage.AddTimeSeriesDatum(ctx, &pb.TimeSeriesDatumRequest{
 		Instrument: instrument,
 		Value: value,
 		Timestamp: ts,
