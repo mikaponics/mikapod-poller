@@ -15,7 +15,7 @@ import (
 	pb2 "github.com/mikaponics/mikapod-soil-reader/api"
 )
 
-type MikapodLogger struct {
+type MikapodPoller struct {
 	timer *time.Timer
 	ticker *time.Ticker
 	done chan bool
@@ -25,8 +25,8 @@ type MikapodLogger struct {
 	reader pb2.MikapodSoilReaderClient
 }
 
-// Function will construct the Mikapod Logger application.
-func InitMikapodLogger(mikapodStorageAddress string, mikapodSoilReaderAddress string) (*MikapodLogger) {
+// Function will construct the Mikapod Poller application.
+func InitMikapodPoller(mikapodStorageAddress string, mikapodSoilReaderAddress string) (*MikapodPoller) {
 	// Set up a direct connection to the `mikapod-storage` server.
 	storageCon, err := grpc.Dial(mikapodStorageAddress, grpc.WithInsecure())
 	if err != nil {
@@ -45,7 +45,7 @@ func InitMikapodLogger(mikapodStorageAddress string, mikapodSoilReaderAddress st
 	// Set up our protocol buffer interface.
 	reader := pb2.NewMikapodSoilReaderClient(readerCon)
 
-	return &MikapodLogger{
+	return &MikapodPoller{
 		timer: nil,
 		ticker: nil,
 		done: make(chan bool, 1), // Create a execution blocking channel.
@@ -77,8 +77,8 @@ func minuteTicker() *time.Timer {
 
 
 // Function will consume the main runtime loop and run the business logic
-// of the Mikapod Logger application.
-func (app *MikapodLogger) RunMainRuntimeLoop() {
+// of the Mikapod Poller application.
+func (app *MikapodPoller) RunMainRuntimeLoop() {
 	defer app.shutdown()
 
     // DEVELOPERS NOTE:
@@ -109,7 +109,7 @@ func (app *MikapodLogger) RunMainRuntimeLoop() {
 	// (2) Main runtime loop's execution is blocked by the `done` chan which
 	//     can only be triggered when this application gets a termination signal
 	//     from the operating system.
-	log.Printf("Logger is now running.")
+	log.Printf("Poller is now running.")
 	go func() {
         for {
             select {
@@ -128,17 +128,17 @@ func (app *MikapodLogger) RunMainRuntimeLoop() {
 
 // Function will tell the application to stop the main runtime loop when
 // the process has been finished.
-func (app *MikapodLogger) StopMainRuntimeLoop() {
+func (app *MikapodPoller) StopMainRuntimeLoop() {
 	app.done <- true
 }
 
-func (app *MikapodLogger) shutdown()  {
+func (app *MikapodPoller) shutdown()  {
     app.storageCon.Close()
 	app.readerCon.Close()
 }
 
 
-func (app *MikapodLogger) getDataFromArduino() (*TimeSeriesData){
+func (app *MikapodPoller) getDataFromArduino() (*TimeSeriesData){
 	c := app.reader
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -166,7 +166,7 @@ func (app *MikapodLogger) getDataFromArduino() (*TimeSeriesData){
 	}
 }
 
-func (app *MikapodLogger) saveDataToStorage(data *TimeSeriesData) {
+func (app *MikapodPoller) saveDataToStorage(data *TimeSeriesData) {
 	// For debugging purposes only.
 	fmt.Printf("\n%+v\n", data)
 
@@ -178,7 +178,7 @@ func (app *MikapodLogger) saveDataToStorage(data *TimeSeriesData) {
 	app.addTimeSeriesDatum(configs.SoilMoistureInstrumentId, data.SoilMoistureValue, data.Timestamp)
 }
 
-func (app *MikapodLogger) addTimeSeriesDatum(instrument int32, value float32, ts *timestamp.Timestamp) {
+func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts *timestamp.Timestamp) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	_, err := app.storage.AddTimeSeriesDatum(ctx, &pb.TimeSeriesDatumRequest{

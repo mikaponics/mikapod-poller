@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	app := internal.InitMikapodLogger(configs.MikapodStorageServiceAddress, configs.MikapodSoilReaderServiceAddress)
+	app := internal.InitMikapodPoller(configs.MikapodStorageServiceAddress, configs.MikapodSoilReaderServiceAddress)
 
     // DEVELOPERS CODE:
 	// The following code will create an anonymous goroutine which will have a
