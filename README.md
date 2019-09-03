@@ -35,7 +35,7 @@ You must have the following installed before proceeding. If you are missing any 
 
     ```
     cd github.com/mikaponics/mikapod-poller
-    go run cmd/mikapod-poller/main.go
+    go run main.go
     ```
 
 
@@ -92,10 +92,10 @@ The following instructions are specific to getting setup for [Raspberry Pi](http
     go get -u google.golang.org/grpc
     ```
 
-10. Run our application.
+10. Go to our application directory.
 
     ```
-    cd ~/go/src/github.com/mikaponics/mikapod-poller/cmd/mikapod-poller
+    cd ~/go/src/github.com/mikaponics/mikapod-poller
     ```
 
 11. (Optional) Confirm our application builds on the raspberry pi device. You now should see a message saying ``gRPC server is running`` then the application is running.
