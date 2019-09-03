@@ -104,11 +104,12 @@ The following instructions are specific to getting setup for [Raspberry Pi](http
     go run main.go
     ```
 
-12. Build for the ARM device
+12. Build for the ARM device and install it in our ``~/go/bin`` folder:
 
     ```
-    go build
+    go install
     ```
+
 
 ### Operation
 
@@ -127,7 +128,7 @@ The following instructions are specific to getting setup for [Raspberry Pi](http
 
     [Service]
     Type=idle
-    ExecStart=/home/pi/go/src/github.com/mikaponics/mikapod-poller/cmd/mikapod-poller/mikapod-poller
+    ExecStart=/home/pi/go/bin/mikapod-poller
     Restart=on-failure
     KillSignal=SIGTERM
 
