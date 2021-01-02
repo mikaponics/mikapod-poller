@@ -97,6 +97,7 @@ func (app *MikapodPoller) RunMainRuntimeLoop() {
         for {
             select {
 	            case <- app.ticker.C:
+					log.Printf("Tick")
 					data := app.getDataFromArduino()
 					app.saveDataToStorage(data)
 				case <- app.done:
