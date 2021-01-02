@@ -31,7 +31,7 @@ You must have the following installed before proceeding. If you are missing any 
     mikapod-poller
     ```
 
-6. If you see a message saying ``Synchronized with local time.`` then the application has been successfully started.
+6. If you see a message saying ``Poller is now running`` then the application has been successfully started.
 
 ## License
 

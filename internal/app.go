@@ -148,7 +148,7 @@ func (app *MikapodPoller) getDataFromArduino() (*TimeSeriesData){
 
 func (app *MikapodPoller) saveDataToStorage(data *TimeSeriesData) {
 	// // For debugging purposes only.
-	// log.Printf("\n%+v\n", data)
+	log.Printf("\n%+v\n", data)
 
 	app.addTimeSeriesDatum(configs.HumidityInstrumentId, data.HumidityValue, data.Timestamp)
 	app.addTimeSeriesDatum(configs.TemperatureInstrumentId, data.TemperatureValue, data.Timestamp)
