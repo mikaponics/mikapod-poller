@@ -1,58 +1,41 @@
 package internal // github.com/mikaponics/mikapod-poller/internal
 
 import (
-	"context"
+	// "context"
 	"log"
 	// "os"
 	"time"
-	"fmt"
 
-	"google.golang.org/grpc"
-	"github.com/golang/protobuf/ptypes/timestamp"
+	storage_rpc "github.com/mikaponics/mikapod-storage/pkg/rpc_client"
+	soil_rpc "github.com/mikaponics/mikapod-soil-reader/pkg/rpc_client"
 
-    "github.com/mikaponics/mikapod-poller/configs"
-	pb "github.com/mikaponics/mikapod-storage/api"
-	pb2 "github.com/mikaponics/mikapod-soil-reader/api"
+	"github.com/mikaponics/mikapod-poller/configs"
 )
 
 type MikapodPoller struct {
 	timer *time.Timer
 	ticker *time.Ticker
 	done chan bool
-	storageCon *grpc.ClientConn
-	storage pb.MikapodStorageClient
-	readerCon *grpc.ClientConn
-	reader pb2.MikapodSoilReaderClient
+	storageService *storage_rpc.MikapodStorageService
+	soilReaderService *soil_rpc.MikapodSoilReaderService
 }
 
 // Function will construct the Mikapod Poller application.
 func InitMikapodPoller(mikapodStorageAddress string, mikapodSoilReaderAddress string) (*MikapodPoller) {
-	// Set up a direct connection to the `mikapod-storage` server.
-	storageCon, err := grpc.Dial(mikapodStorageAddress, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
+	storageService := storage_rpc.New(mikapodStorageAddress)
+	soilReaderService := soil_rpc.New(mikapodSoilReaderAddress)
 
-	// Set up our protocol buffer interface.
-	storage := pb.NewMikapodStorageClient(storageCon)
-
-    // Set up a direct connection to the `mikapod-soil-reader` server.
-	readerCon, readerErr := grpc.Dial(mikapodSoilReaderAddress, grpc.WithInsecure())
-	if readerErr != nil {
-		log.Fatalf("did not connect: %v", err)
-	}
-
-	// Set up our protocol buffer interface.
-	reader := pb2.NewMikapodSoilReaderClient(readerCon)
+    // DEVELOPERS NOTE: Uncomment the following code if you want this polling service
+	//                  to immediately contact the soil reader to verify it is working.
+	//                  This code is useful for troubleshooting problems dealing with RPC.
+	// soilReaderService.GetData()
 
 	return &MikapodPoller{
 		timer: nil,
 		ticker: nil,
 		done: make(chan bool, 1), // Create a execution blocking channel.
-		storageCon: storageCon,
-		storage: storage,
-		readerCon: readerCon,
-		reader: reader,
+		storageService: storageService,
+		soilReaderService: soilReaderService,
 	}
 }
 
@@ -133,17 +116,13 @@ func (app *MikapodPoller) StopMainRuntimeLoop() {
 }
 
 func (app *MikapodPoller) shutdown()  {
-    app.storageCon.Close()
-	app.readerCon.Close()
+    // app.storageCon.Close()
+	// app.readerCon.Close()
 }
 
 
 func (app *MikapodPoller) getDataFromArduino() (*TimeSeriesData){
-	c := app.reader
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.GetData(ctx, &pb2.GetTimeSeriesData{})
+	r, err := app.soilReaderService.GetData()
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
@@ -164,11 +143,12 @@ func (app *MikapodPoller) getDataFromArduino() (*TimeSeriesData){
 		SoilMoistureUnit: r.SoilMoistureUnit,
 		Timestamp: r.Timestamp,
 	}
+	return nil
 }
 
 func (app *MikapodPoller) saveDataToStorage(data *TimeSeriesData) {
-	// For debugging purposes only.
-	fmt.Printf("\n%+v\n", data)
+	// // For debugging purposes only.
+	// log.Printf("\n%+v\n", data)
 
 	app.addTimeSeriesDatum(configs.HumidityInstrumentId, data.HumidityValue, data.Timestamp)
 	app.addTimeSeriesDatum(configs.TemperatureInstrumentId, data.TemperatureValue, data.Timestamp)
@@ -178,10 +158,8 @@ func (app *MikapodPoller) saveDataToStorage(data *TimeSeriesData) {
 	app.addTimeSeriesDatum(configs.SoilMoistureInstrumentId, data.SoilMoistureValue, data.Timestamp)
 }
 
-func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts *timestamp.Timestamp) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	_, err := app.storage.AddTimeSeriesDatum(ctx, &pb.TimeSeriesDatumRequest{
+func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts time.Time) {
+	_, err := app.storageService.AddTimeSeriesDatum(&storage_rpc.TimeSeriesDatumCreateRequest{
 		Instrument: instrument,
 		Value: value,
 		Timestamp: ts,
