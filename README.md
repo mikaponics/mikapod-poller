@@ -31,6 +31,8 @@ You must have the following installed before proceeding. If you are missing any 
     mikapod-poller
     ```
 
+6. If you see a message saying ``Synchronized with local time.`` then the application has been successfully started.
+
 ## License
 
 This application is licensed under the **BSD** license. See [LICENSE](LICENSE) for more information.
