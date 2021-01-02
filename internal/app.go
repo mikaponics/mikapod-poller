@@ -97,7 +97,7 @@ func (app *MikapodPoller) RunMainRuntimeLoop() {
         for {
             select {
 	            case <- app.ticker.C:
-					log.Printf("Tick")
+					// log.Printf("Tick")
 					data := app.getDataFromArduino()
 					app.saveDataToStorage(data)
 				case <- app.done:
@@ -148,8 +148,8 @@ func (app *MikapodPoller) getDataFromArduino() (*TimeSeriesData){
 }
 
 func (app *MikapodPoller) saveDataToStorage(data *TimeSeriesData) {
-	// // For debugging purposes only.
-	log.Printf("\n%+v\n", data)
+	// For debugging purposes only.
+	// log.Printf("\n%+v\n", data)
 
 	app.addTimeSeriesDatum(configs.HumidityInstrumentId, data.HumidityValue, data.Timestamp)
 	app.addTimeSeriesDatum(configs.TemperatureInstrumentId, data.TemperatureValue, data.Timestamp)
