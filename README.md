@@ -9,7 +9,7 @@ The purpose of this application is to poll time-series data from our [Mikapod So
 
 You must have the following installed before proceeding. If you are missing any one of these then you cannot begin.
 
-* ``Go 1.12.7``
+* ``Go 1.15``
 
 ## Installation
 
