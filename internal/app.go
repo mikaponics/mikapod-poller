@@ -97,9 +97,11 @@ func (app *MikapodPoller) RunMainRuntimeLoop() {
         for {
             select {
 	            case <- app.ticker.C:
-					// log.Printf("Tick")
+					// log.Printf("Tick") // For debugging purposes only.
 					data := app.getDataFromArduino()
-					app.saveDataToStorage(data)
+					if data != nil {
+						app.saveDataToStorage(data)
+					}
 				case <- app.done:
 					app.ticker.Stop()
 					log.Printf("Interrupted ticker.")
@@ -125,7 +127,11 @@ func (app *MikapodPoller) shutdown()  {
 func (app *MikapodPoller) getDataFromArduino() (*TimeSeriesData){
 	r, err := app.soilReaderService.GetData()
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		// DEVELOPERS NOTE:
+		// Do not terminate application due because the IoT device might be
+		// powering up while we made the call.
+		log.Println("Could not fetch from soil reader service because: %v", err)
+		return nil
 	}
 	return &TimeSeriesData{
 		HumidityValue: r.HumidityValue,
@@ -169,6 +175,6 @@ func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts
 		// DEVELOPERS NOTE:
 		// Do not terminate application due because the IoT device might be
 		// powering up while we made the call.
-		log.Println("could not add time-series data to storage: %v", err)
+		log.Println("Could not add time-series data to storage: %v", err)
 	}
 }
