@@ -166,6 +166,9 @@ func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts
 		Timestamp: ts,
 	})
 	if err != nil {
-		log.Fatalf("could not add time-series data to storage: %v", err)
+		// DEVELOPERS NOTE:
+		// Do not terminate application due because the IoT device might be
+		// powering up while we made the call.
+		log.Println("could not add time-series data to storage: %v", err)
 	}
 }
