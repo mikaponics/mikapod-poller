@@ -159,7 +159,7 @@ func (app *MikapodPoller) saveDataToStorage(data *TimeSeriesData) {
 	app.addTimeSeriesDatum(configs.SoilMoistureInstrumentId, data.SoilMoistureValue, data.Timestamp)
 }
 
-func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts time.Time) {
+func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts int64) {
 	_, err := app.storageService.AddTimeSeriesDatum(&storage_rpc.TimeSeriesDatumCreateRequest{
 		Instrument: instrument,
 		Value: value,

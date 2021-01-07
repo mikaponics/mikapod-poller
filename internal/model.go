@@ -1,9 +1,5 @@
 package internal // github.com/mikaponics/mikapod-poller/internal
 
-import (
-	"time"
-)
-
 // The time-series data structure used to store all the data that will be
 // returned by the `Mikapod Soil` Arduino device.
 type TimeSeriesData struct {
@@ -21,5 +17,5 @@ type TimeSeriesData struct {
     IlluminanceUnit string `json:"illuminance_unit,omitempty"`
     SoilMoistureValue float32 `json:"soil_moisture_value,omitempty"`
     SoilMoistureUnit string `json:"soil_moisture_unit,omitempty"`
-    Timestamp time.Time `json:"timestamp,omitempty"`
+    Timestamp int64 `json:"timestamp,omitempty"`
 }
