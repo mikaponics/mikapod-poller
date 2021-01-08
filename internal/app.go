@@ -8,7 +8,6 @@ import (
 
 	storage_rpc "github.com/mikaponics/mikapod-storage/pkg/rpc_client"
 	soil_rpc "github.com/mikaponics/mikapod-soil-reader/pkg/rpc_client"
-	soil_const "github.com/mikaponics/mikapod-soil-reader/pkg/constants"
 
 	"github.com/mikaponics/mikapod-soil-poller/configs"
 )
@@ -161,12 +160,12 @@ func (app *MikapodPoller) saveDataToStorage(data *TimeSeriesData) {
 	// For debugging purposes only.
 	// log.Printf("\n%+v\n", data)
 
-	app.addTimeSeriesDatum(soil_const.MikapodSoilReaderHumidityInstrumentId, data.HumidityValue, data.Timestamp)
-	app.addTimeSeriesDatum(soil_const.MikapodSoilReaderTemperatureInstrumentId, data.TemperatureValue, data.Timestamp)
-	app.addTimeSeriesDatum(soil_const.MikapodSoilReaderPressureInstrumentId, data.PressureValue, data.Timestamp)
-	app.addTimeSeriesDatum(soil_const.MikapodSoilReaderAltitudeInstrumentId, data.AltitudeValue, data.Timestamp)
-	app.addTimeSeriesDatum(soil_const.MikapodSoilReaderIlluminanceInstrumentId, data.IlluminanceValue, data.Timestamp)
-	app.addTimeSeriesDatum(soil_const.MikapodSoilReaderSoilMoistureInstrumentId, data.SoilMoistureValue, data.Timestamp)
+	app.addTimeSeriesDatum(configs.MikapodSoilReaderHumidityInstrumentId, data.HumidityValue, data.Timestamp)
+	app.addTimeSeriesDatum(configs.MikapodSoilReaderTemperatureInstrumentId, data.TemperatureValue, data.Timestamp)
+	app.addTimeSeriesDatum(configs.MikapodSoilReaderPressureInstrumentId, data.PressureValue, data.Timestamp)
+	app.addTimeSeriesDatum(configs.MikapodSoilReaderAltitudeInstrumentId, data.AltitudeValue, data.Timestamp)
+	app.addTimeSeriesDatum(configs.MikapodSoilReaderIlluminanceInstrumentId, data.IlluminanceValue, data.Timestamp)
+	app.addTimeSeriesDatum(configs.MikapodSoilReaderSoilMoistureInstrumentId, data.SoilMoistureValue, data.Timestamp)
 }
 
 func (app *MikapodPoller) addTimeSeriesDatum(instrument int32, value float32, ts int64) {
