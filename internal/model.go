@@ -1,4 +1,4 @@
-package internal // github.com/mikaponics/mikapod-poller/internal
+package internal // github.com/mikaponics/mikapod-soil-poller/internal
 
 // The time-series data structure used to store all the data that will be
 // returned by the `Mikapod Soil` Arduino device.

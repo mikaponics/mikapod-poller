@@ -6,8 +6,8 @@ import (
 	"syscall"
 	"fmt"
 
-	"github.com/mikaponics/mikapod-poller/configs"
-	"github.com/mikaponics/mikapod-poller/internal"
+	"github.com/mikaponics/mikapod-soil-poller/configs"
+	"github.com/mikaponics/mikapod-soil-poller/internal"
 )
 
 func main() {

@@ -1,5 +1,5 @@
 # Mikapod Poller
-[![Go Report Card](https://goreportcard.com/badge/github.com/mikaponics/mikapod-poller)](https://goreportcard.com/report/github.com/mikaponics/mikapod-poller)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mikaponics/mikapod-soil-poller)](https://goreportcard.com/report/github.com/mikaponics/mikapod-soil-poller)
 
 ## Overview
 
@@ -22,13 +22,13 @@ You must have the following installed before proceeding. If you are missing any 
 4. Download the source code, build and install the application.
 
     ```
-    GO111MODULE=on go get -u github.com/mikaponics/mikapod-poller
+    GO111MODULE=on go get -u github.com/mikaponics/mikapod-soil-poller
     ```
 
 5. Run our application.
 
     ```
-    mikapod-poller
+    mikapod-soil-poller
     ```
 
 6. If you see a message saying ``Poller is now running`` then the application has been successfully started.

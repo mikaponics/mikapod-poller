@@ -1,4 +1,4 @@
-package internal // github.com/mikaponics/mikapod-poller/internal
+package internal // github.com/mikaponics/mikapod-soil-poller/internal
 
 import (
 	// "context"
@@ -9,7 +9,7 @@ import (
 	storage_rpc "github.com/mikaponics/mikapod-storage/pkg/rpc_client"
 	soil_rpc "github.com/mikaponics/mikapod-soil-reader/pkg/rpc_client"
 
-	"github.com/mikaponics/mikapod-poller/configs"
+	"github.com/mikaponics/mikapod-soil-poller/configs"
 )
 
 type MikapodPoller struct {

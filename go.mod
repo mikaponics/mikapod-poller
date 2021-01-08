@@ -1,4 +1,4 @@
-module github.com/mikaponics/mikapod-poller
+module github.com/mikaponics/mikapod-soil-poller
 
 go 1.15
 
