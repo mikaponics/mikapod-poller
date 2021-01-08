@@ -22,8 +22,11 @@ type MikapodPoller struct {
 
 // Function will construct the Mikapod Poller application.
 func InitMikapodPoller(mikapodStorageAddress string, mikapodSoilReaderAddress string) (*MikapodPoller) {
+	log.Printf("Attempting to connect to the storage service.")
 	storageService := storage_rpc.New(mikapodStorageAddress)
+	log.Printf("Attempting to connect to the soil reader service.")
 	soilReaderService := soil_rpc.New(mikapodSoilReaderAddress)
+	log.Printf("Successfully connected to dependent services.")
 
     // DEVELOPERS NOTE: Uncomment the following code if you want this polling service
 	//                  to immediately contact the soil reader to verify it is working.
