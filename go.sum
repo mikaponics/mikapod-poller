@@ -115,6 +115,8 @@ github.com/mikaponics/mikapod-soil-reader v0.0.0-20210108035802-44d3de0084ef h1:
 github.com/mikaponics/mikapod-soil-reader v0.0.0-20210108035802-44d3de0084ef/go.mod h1:WVppq2HefOQpcQffW1vFyc7k8tTrXokT1PC/0JI3Si4=
 github.com/mikaponics/mikapod-soil-reader v0.0.0-20210108041245-d79dffc60825 h1:zO4Zj6Ld1UsjisMNSbIiciKFgYyIh+HDALYw4cOhMyc=
 github.com/mikaponics/mikapod-soil-reader v0.0.0-20210108041245-d79dffc60825/go.mod h1:RJnNT90izjbldmxgAFXZ8VTRM/PJm9NmxzR0fxJVNvQ=
+github.com/mikaponics/mikapod-soil-reader v0.0.0-20210108043920-2479e78d0019 h1:0fJ5Lsplk++3bVHIcLQnVbWuLsnzRS5CyMzopLqdaPI=
+github.com/mikaponics/mikapod-soil-reader v0.0.0-20210108043920-2479e78d0019/go.mod h1:BEVP8CyZUr9BUfCST52+29vA4+UJ0aSWbi3pjUkFjk4=
 github.com/mikaponics/mikapod-storage v0.0.0-20210108040154-638e9937247c h1:588Ia4DAtOiwPBLdCudx9mlb9uqQ3GDlwdbH4ufqjiI=
 github.com/mikaponics/mikapod-storage v0.0.0-20210108040154-638e9937247c/go.mod h1:Qd7373yfjMgBpMYuDbicO3L4iOzS3HPe5aKsBnqKhm8=
 github.com/mikaponics/mikapod-storage v0.0.0-20210108041150-635e74dfbefe h1:WkvFem4WxYiML+YEquaHl0jy5cJdc6W8frmr0M2WU5g=
