@@ -119,6 +119,8 @@ github.com/mikaponics/mikapod-storage v0.0.0-20210108040154-638e9937247c h1:588I
 github.com/mikaponics/mikapod-storage v0.0.0-20210108040154-638e9937247c/go.mod h1:Qd7373yfjMgBpMYuDbicO3L4iOzS3HPe5aKsBnqKhm8=
 github.com/mikaponics/mikapod-storage v0.0.0-20210108041150-635e74dfbefe h1:WkvFem4WxYiML+YEquaHl0jy5cJdc6W8frmr0M2WU5g=
 github.com/mikaponics/mikapod-storage v0.0.0-20210108041150-635e74dfbefe/go.mod h1:Qd7373yfjMgBpMYuDbicO3L4iOzS3HPe5aKsBnqKhm8=
+github.com/mikaponics/mikapod-storage v0.0.0-20210108043831-22510d09bd57 h1:pJ93n0gCpJxJQAdgisw9e67RNPmHr6kPz5yWfE//gjg=
+github.com/mikaponics/mikapod-storage v0.0.0-20210108043831-22510d09bd57/go.mod h1:Qd7373yfjMgBpMYuDbicO3L4iOzS3HPe5aKsBnqKhm8=
 github.com/mitchellh/cli v1.0.0/go.mod h1:hNIlj7HEI86fIcpObd7a0FcrxTWetlwJDGcceTlRvqc=
 github.com/mitchellh/go-homedir v1.0.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
